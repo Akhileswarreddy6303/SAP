@@ -153,9 +153,9 @@ Assignment
 --> One Purchase Organization can be assigned to multiple Plants.
 --> One Plant can have multiple Purchase Organizations.
 
-
+--------------
  MASTER DATA 
-
+--------------
 1) Material Master
 2) Vendor master/ Business partner
 3) Purchase Info record
@@ -203,6 +203,7 @@ Assignment
 	
 	
 2)Vendor Master :-
+
     Vendor Master is a Master data which stroes vendor data like    --->  XK01
 				--->  Vendor Master 				
 				--->  Vendor address and Communication
@@ -228,8 +229,8 @@ Assignment
 						  
 Business Partner :-
 	
-	A Business Partner is a central master data object in SAP S/4HANA that represents a person, organization, or group with whom 
-	the company does business. A Business Partner can perform multiple roles, such as Supplier and Customer.                        ---> BP
+	A Business Partner is a central master data that represents a person, organization, or group with whome the company does business. 
+	A Business Partner can perform multiple roles, such as Supplier and Customer.                                                        ---> BP
 	
 	
 	     General role  ---> 000000
@@ -282,16 +283,20 @@ Business Partner :-
 		
 5)Service master :-
 
-		A Service Master is a master data object in SAP MM that stores information about services that a company purchases 
-		from vendors, instead of physical materials.
+		A Service Master is a master data that stores information about services that a company purchases from vendors, instead of physical materials.
 
 		create  ---> AC01
 
 		Table   ---> ASMD
 		
-6)Quota Arrgangement :-
+6)Quota Arrangement :-
 			
+		quota arrangement is a process that allocates procurement quantites among multiple approved vendor (Source of supply) based on predefined 
+		quota values.
 		
+		create  ---> MEQ1
+		
+		Table  ---> EQAK  , EQUP
 		
 GR-Based IV:-
 		
@@ -300,6 +305,177 @@ GR-Based IV:-
      It is a feature in SAP MM where the vendor invoice is verified against the Goods Receipt (GR) instead of only against the Purchase Order (PO).
 
      This ensures that the vendor is paid only for the quantity of goods that has actually been received.
+		
+		
+---------------------------		
+P2P (Procure-to-Pay) Cycle:-
+---------------------------
+	The P2P (Procure-to-Pay) cycle is an end-to-end business process that starts when a company needs to purchase a material or service and ends when 
+	the vendor is paid for the goods or services provided.	
+	
+	
+Purchase Requisition(PR):-	
+------------------------
+	A Purchase Requisition (PR) is an internal document created to request the procurement of materials or services. It is sent to the purchasing department 
+	for further processing.
+	
+	Standard document type ---> NB , FO 
+	
+	create  ---> ME51N
+	
+	table  --->  EBAN
+	
+	Configurations :-
+
+		PR document type  
+		Screen layout
+		define number range and assign number range
+		PR text type
+		error and warining massage
+		
+Request for Quotation (RFQ):-
+---------------------------
+	A request for quotation is a purchasing document used to invite one or more vendors to submit quotation for supplying material or service.
+	
+	create  ---> ME41 
+			
+Maintain Quotation  ---> ME47
+-------------------
+Decide vendor  ---> ME49
+-------------
+
+Contract :-
+-----------
+	A Contract in SAP MM is a long-term agreement between a company and a vendor that defines the price, terms, and conditions for supplying materials 
+	or services over a specified period.
+
+	create ---> ME31K
+
+	Types of Contracts:-
+	
+	Value Contract(VK) :-
+	------------------	
+		Based on a total monetary value.
+		Valid until the agreed contract value is reached.
+		
+	Quantity Contract(MK):-
+	-----------------------	
+		Based on a total quantity.
+		Valid until the agreed quantity is supplied.
+		
+		
+	Plant Specific Contract
+	-------------------------	
+	Central Contract	
+	-----------------	
+
+Purchase order :-
+---------------
+	A Purchse Order is an offical document sent by a buyer to vendor to purchase material or service , it contains details such as the material, quantity, 
+	price, delivery date, payment terms and delivery location.
+	
+	create  --->  ME21N
+	
+	Standard document type ---> NB , FO
+	
+	Configurations :-
+	
+		document types 
+		number ranges 
+		item categories 
+		account assignment 
+		release strategy 
+		Screen Layout
+		output settings.
+	
+	Types of Purchase Orders:-
+		
+	Standard Purchase Order (NB):-
+	-----------------------------
+		A Standard Purchase Order is the most commonly used PO. It is created for the one-time procurement of materials or services from a vendor.
+
+		Characteristics:-
+			Used for one-time purchases.
+			Can be created with or without a Purchase Requisition.
+			Supports material and service procurement.
+			Goods Receipt (GR) and Invoice Verification (IV) are generally required.
+			
+	Subcontracting Purchase Order (Item Category: L):-
+	--------------------------------------------------
+		A Subcontracting PO is used when a company sends raw materials or components to a vendor, who manufactures or assembles the finished 
+		product and returns it.		
+	
+
+	Consignment Purchase Order (Item Category: K):-
+	---------------------------------------------
+		A Consignment PO is used when materials are stored at the company's premises but remain the property of the vendor until they are consumed.
+
+		Characteristics:-
+			Ownership remains with the vendor.
+			Payment is made only after consumption.
+			Inventory is available immediately.	
+			
+			
+Service Purchase Order (Item Category: D):-
+-----------------------------------------
+    A Service Purchase Order is used for procuring services instead of physical materials.
+
+	Characteristics:-
+		Uses Item Category D.
+		Services are recorded using a Service Entry Sheet (ML81N).
+		Common for maintenance, consulting, security, and housekeeping.	
+
+Framework Order (Item Category: B):-
+-----------------------------------
+	A Framework Order is used for recurring or low-value services where the exact quantity is not known.
+
+	Characteristics:-
+		Uses Item Category B (Limit).
+		Defines an overall value limit and validity period.
+		Suitable for miscellaneous services.	
+
+
+Scheduling Arrangement:-
+-----------------------
+	A Scheduling Agreement (SA) is a long-term purchasing agreement between a company and a vendor in which the material, price, and 
+	terms are fixed, but the delivery dates and quantities are scheduled over time instead of creating multiple Purchase Orders.	
+
+
+		Create ---> ME31L
+		
+		
+	Scheduling Agreement with Release Documentation :-
+	-----------------------------------------------
+		In this type, SAP creates release documents (forecast or JIT releases) from the scheduling agreement and sends them to the vendor.	
+		
+		
+	Features:-
+		Uses Forecast Delivery Schedules and/or JIT (Just-in-Time) Delivery Schedules.
+		Release documents are generated and transmitted to the vendor.
+		Commonly used in automotive and manufacturing industries.
+		Suitable for frequent deliveries based on production planning.
+		Vendor receives updated delivery schedules regularly.	
+		
+		
+	Scheduling Agreement without Release Documentation:-
+	--------------------------------------------------
+	   (In this type, SAP does not generate release documents)
+
+		The vendor delivers directly according to the schedule lines maintained in the scheduling agreement.
+
+	Features:-
+		No forecast or JIT releases.
+		Delivery dates and quantities are maintained directly in the scheduling agreement.
+		Simpler to manage.
+		Suitable for businesses with stable delivery schedules.
+		Vendor refers directly to the schedule lines.	
 
 
 
+
+
+
+
+
+
+		
