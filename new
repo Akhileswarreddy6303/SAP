@@ -353,7 +353,7 @@ Contract :-
 
 	Types of Contracts:-
 	
-	Value Contract(VK) :-
+	Value Contract(WK) :-
 	------------------	
 		Based on a total monetary value.
 		Valid until the agreed contract value is reached.
